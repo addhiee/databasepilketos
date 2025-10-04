@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  // CORS preflight
+  // Tangani OPTIONS (preflight)
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -14,17 +14,13 @@ export default async function handler(req, res) {
   try {
     const response = await fetch("https://script.google.com/macros/s/AKfycbwqV7l5iEq9snJzwpSpatjlQVcSyZcFHsgQsdPvW56w6dED4lTO354v1iHeIUljR1o/exec", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),
     });
 
-    // Karena GAS balikin JSON, lebih baik langsung parse
     const result = await response.json();
-
     res.setHeader("Access-Control-Allow-Origin", "*");
-    return res.status(200).json(result);
+    res.status(200).json(result);
 
   } catch (err) {
     console.error("Proxy error:", err);
