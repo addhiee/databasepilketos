@@ -18,11 +18,20 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const result = await response.json();
-    return res.status(200).json(result);
+    // ambil raw text dulu
+    const raw = await response.text();
+    console.log("GAS Raw Response:", raw);
+
+    // coba parse JSON, kalau gagal kirim raw
+    try {
+      const parsed = JSON.parse(raw);
+      return res.status(200).json(parsed);
+    } catch (err) {
+      return res.status(200).send(raw);
+    }
 
   } catch (err) {
-    console.error("Proxy error:", err);   // <-- ini penting
+    console.error("Proxy error:", err);
     return res.status(500).json({ result: "error", message: err.message });
   }
 }
