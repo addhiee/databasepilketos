@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
-  // Tangani OPTIONS (preflight)
+  // Tambahkan header di semua response
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
   }
 
@@ -19,11 +20,10 @@ export default async function handler(req, res) {
     });
 
     const result = await response.json();
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).json(result);
+    return res.status(200).json(result);
 
   } catch (err) {
     console.error("Proxy error:", err);
-    res.status(500).json({ result: "error", message: err.message });
+    return res.status(500).json({ result: "error", message: err.message });
   }
 }
