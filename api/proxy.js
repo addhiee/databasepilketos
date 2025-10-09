@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     // Kirim ke Google Apps Script
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwqV7l5iEq9snJzwpSpatjlQVcSyZcFHsgQsdPvW56w6dED4lTO354v1iHeIUljR1o/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbyHweSaxCJoWmO4Gd23cvMRVfdK2X_sX9du0Mgu3NVA7SRI91sMvlaUNwNsT18pbX8/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),
@@ -38,3 +38,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ result: "error", message: "Proxy gagal: " + err.message });
   }
 }
+
